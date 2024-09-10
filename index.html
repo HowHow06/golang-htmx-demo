@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Go HTMx</title>
+  </head>
+  <body>
+    <h1>{{ .Title}}</h1>
+    <div id="message-div"></div>
+    <form
+      hx-post="/change-message"
+      hx-target="#message-div"
+      hx-swap="innerHTML"
+    >
+      <label for="message">Main Message: </label>
+      <input type="text" id="message" name="message" />
+      <button type="submit">Change!</button>
+    </form>
+
+    <div>
+      <p>This is a list</p>
+      <ul id="item-list">
+        {{ range .Items }} {{ block "item-list-element" .}}
+        <li>{{ . }}</li>
+        {{end}} {{end}}
+      </ul>
+    </div>
+    <form hx-post="/add-item" hx-target="#item-list" hx-swap="beforeend">
+      <label for="item">New Item: </label>
+      <input type="text" id="item" name="item" required />
+      <button type="submit">Add to List</button>
+    </form>
+  </body>
+</html>
